@@ -21,6 +21,7 @@
 		AD9AC89124782CB2005C501A /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9AC89024782CB2005C501A /* UserListViewModel.swift */; };
 		AD9AC89424782DDC005C501A /* GitHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9AC89324782DDC005C501A /* GitHub.swift */; };
 		AD9AC89624783C2B005C501A /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9AC89524783C2B005C501A /* ActivityIndicator.swift */; };
+		AD9AC89924784A81005C501A /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9AC89824784A81005C501A /* UserTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		AD9AC89024782CB2005C501A /* UserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModel.swift; sourceTree = "<group>"; };
 		AD9AC89324782DDC005C501A /* GitHub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHub.swift; sourceTree = "<group>"; };
 		AD9AC89524783C2B005C501A /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		AD9AC89824784A81005C501A /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		E776DC3859C6BA13D6D821E8 /* Pods-github-user-list-rxTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-github-user-list-rxTests.debug.xcconfig"; path = "Target Support Files/Pods-github-user-list-rxTests/Pods-github-user-list-rxTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F478DD57B1EECEEACBB3D683 /* Pods-github-user-list-rx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-github-user-list-rx.release.xcconfig"; path = "Target Support Files/Pods-github-user-list-rx/Pods-github-user-list-rx.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -124,6 +126,7 @@
 				AD9AC860247817EF005C501A /* AppDelegate.swift */,
 				AD9AC862247817EF005C501A /* SceneDelegate.swift */,
 				AD9AC88424781852005C501A /* ViewController */,
+				AD9AC89724784A5F005C501A /* View */,
 				AD9AC8852478250B005C501A /* Model */,
 				AD9AC88C24782C49005C501A /* ViewModel */,
 				AD9AC88D24782C57005C501A /* Common */,
@@ -184,6 +187,14 @@
 				AD9AC89324782DDC005C501A /* GitHub.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		AD9AC89724784A5F005C501A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AD9AC89824784A81005C501A /* UserTableViewCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -375,6 +386,7 @@
 				AD9AC861247817EF005C501A /* AppDelegate.swift in Sources */,
 				AD9AC89424782DDC005C501A /* GitHub.swift in Sources */,
 				AD9AC89124782CB2005C501A /* UserListViewModel.swift in Sources */,
+				AD9AC89924784A81005C501A /* UserTableViewCell.swift in Sources */,
 				AD9AC88F24782C6E005C501A /* ViewModelType.swift in Sources */,
 				AD9AC863247817EF005C501A /* SceneDelegate.swift in Sources */,
 				AD9AC88B2478286A005C501A /* UserDetail.swift in Sources */,
