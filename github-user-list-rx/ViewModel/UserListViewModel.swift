@@ -33,10 +33,16 @@ class UserListViewModel: ViewModelType {
     let activityIndicator = ActivityIndicator()
     let userList = BehaviorRelay<[User]>(value: [])
 
+
+
     input
       .refreshSignal
+      .emit(onNext: { since.accept(0) })
+      .disposed(by: disposeBag)
+
+    Signal
+      .merge(input.refreshSignal, input.nextPageSignal)
       .asObservable()
-      .do(onNext: { since.accept(0) })
       .flatMapFirst {
         input.provider.rx.request(.getUserList(since: since.value, pageSize: pageSize))
           .filterSuccessfulStatusCodes()
@@ -52,20 +58,6 @@ class UserListViewModel: ViewModelType {
       .unwrap()
       .bind(to: since)
       .disposed(by: disposeBag)
-
-    input
-      .nextPageSignal
-      .asObservable()
-      .flatMapFirst {
-        input.provider.rx.request(.getUserList(since: since.value, pageSize: pageSize))
-          .filterSuccessfulStatusCodes()
-          .map([User].self)
-          .trackActivity(activityIndicator)
-      }
-      .map { userList.value + $0 }
-      .bind(to: userList)
-      .disposed(by: disposeBag)
-
 
     return Output(
       userList: userList,
