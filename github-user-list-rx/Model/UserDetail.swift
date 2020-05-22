@@ -28,4 +28,18 @@ struct UserDetail: Codable {
     case location
     case blog
   }
+
+  init(from decoder: Decoder) throws {
+    let values = try decoder.container(keyedBy: CodingKeys.self)
+    login = try values.decode(String.self, forKey: .login)
+    id = try values.decode(Int.self, forKey: .id)
+    avatarURL = try values.decode(URL.self, forKey: .avatarURL)
+    isAdmin = try values.decode(Bool.self, forKey: .isAdmin)
+    name = try values.decodeIfPresent(String.self, forKey: .name)
+    bio = try values.decodeIfPresent(String.self, forKey: .bio)
+    location = try values.decodeIfPresent(String.self, forKey: .location)
+
+    // `try?` for nonValid URL
+    blog = try? values.decodeIfPresent(URL.self, forKey: .blog)
+  }
 }
