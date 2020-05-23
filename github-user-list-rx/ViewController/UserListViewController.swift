@@ -7,10 +7,61 @@
 //
 
 import UIKit
+import Moya
+import RxSwift
+import RxCocoa
+import RxDataSources
 
 class UserListViewController: UIViewController {
+  private let disposeBag = DisposeBag()
+  private var viewModel: UserListViewModel?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+  private var tableView: UITableView = {
+    let tableView = UITableView()
+    return tableView
+  }()
+
+  private let dataSource = RxTableViewSectionedReloadDataSource<UserListSection>(
+    configureCell: {  (dataSource, tableView, indexPath, item) -> UITableViewCell in
+      let cell = tableView.dequeueReusableCell(withIdentifier: "UserCell") as? UserTableViewCell ?? UserTableViewCell(style: .default, reuseIdentifier: "UserCell")
+      cell.bindViewModel(user: item)
+      return cell
     }
+  )
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    title = "GitHub Users"
+    setupSubview()
+    bindViewModel()
+  }
+
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    tableView.frame = CGRect(x: view.safeAreaInsets.left, y: view.bounds.minY, width: view.safeAreaLayoutGuide.layoutFrame.width, height: view.bounds.height)
+  }
+
+  private func setupSubview() {
+    view.addSubview(tableView)
+  }
+
+  private func bindViewModel() {
+    let viewModel = UserListViewModel()
+    self.viewModel = viewModel
+
+    let nextPageSignal = tableView.rx.reachedBottom(offset: 120.0).asSignal()
+
+    let input = UserListViewModel.Input(
+      provider: MoyaProvider<GitHub>(),
+      refreshSignal: .of(()),
+      nextPageSignal: nextPageSignal
+    )
+    let output = viewModel.transform(input: input)
+
+    output
+      .userList
+      .map { [UserListSection(header: "", items: $0)] }
+      .bind(to: tableView.rx.items(dataSource: dataSource))
+      .disposed(by: disposeBag)
+  }
 }

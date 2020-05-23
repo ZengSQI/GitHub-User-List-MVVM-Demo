@@ -22,6 +22,7 @@
 		AD9AC89424782DDC005C501A /* GitHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9AC89324782DDC005C501A /* GitHub.swift */; };
 		AD9AC89624783C2B005C501A /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9AC89524783C2B005C501A /* ActivityIndicator.swift */; };
 		AD9AC89924784A81005C501A /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9AC89824784A81005C501A /* UserTableViewCell.swift */; };
+		AD9ACA49247907E0005C501A /* UserListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9ACA48247907DF005C501A /* UserListSection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		AD9AC89324782DDC005C501A /* GitHub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHub.swift; sourceTree = "<group>"; };
 		AD9AC89524783C2B005C501A /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		AD9AC89824784A81005C501A /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
+		AD9ACA48247907DF005C501A /* UserListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListSection.swift; sourceTree = "<group>"; };
 		E776DC3859C6BA13D6D821E8 /* Pods-github-user-list-rxTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-github-user-list-rxTests.debug.xcconfig"; path = "Target Support Files/Pods-github-user-list-rxTests/Pods-github-user-list-rxTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F478DD57B1EECEEACBB3D683 /* Pods-github-user-list-rx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-github-user-list-rx.release.xcconfig"; path = "Target Support Files/Pods-github-user-list-rx/Pods-github-user-list-rx.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -160,6 +162,7 @@
 			children = (
 				AD9AC88624782529005C501A /* User.swift */,
 				AD9AC88A2478286A005C501A /* UserDetail.swift */,
+				AD9ACA48247907DF005C501A /* UserListSection.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				AD9AC89924784A81005C501A /* UserTableViewCell.swift in Sources */,
 				AD9AC88F24782C6E005C501A /* ViewModelType.swift in Sources */,
 				AD9AC863247817EF005C501A /* SceneDelegate.swift in Sources */,
+				AD9ACA49247907E0005C501A /* UserListSection.swift in Sources */,
 				AD9AC88B2478286A005C501A /* UserDetail.swift in Sources */,
 				AD9AC89624783C2B005C501A /* ActivityIndicator.swift in Sources */,
 				AD9AC8832478184E005C501A /* UserListViewController.swift in Sources */,
