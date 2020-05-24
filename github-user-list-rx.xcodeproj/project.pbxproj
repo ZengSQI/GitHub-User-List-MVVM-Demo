@@ -24,6 +24,7 @@
 		AD9AC89924784A81005C501A /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9AC89824784A81005C501A /* UserTableViewCell.swift */; };
 		AD9ACA49247907E0005C501A /* UserListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9ACA48247907DF005C501A /* UserListSection.swift */; };
 		AD9ACA4B24791CAC005C501A /* UserDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9ACA4A24791CAC005C501A /* UserDetailViewModel.swift */; };
+		AD9ACA4F247A5E90005C501A /* StaffBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9ACA4E247A5E90005C501A /* StaffBadgeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		AD9AC89824784A81005C501A /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		AD9ACA48247907DF005C501A /* UserListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListSection.swift; sourceTree = "<group>"; };
 		AD9ACA4A24791CAC005C501A /* UserDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewModel.swift; sourceTree = "<group>"; };
+		AD9ACA4E247A5E90005C501A /* StaffBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffBadgeView.swift; sourceTree = "<group>"; };
 		E776DC3859C6BA13D6D821E8 /* Pods-github-user-list-rxTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-github-user-list-rxTests.debug.xcconfig"; path = "Target Support Files/Pods-github-user-list-rxTests/Pods-github-user-list-rxTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F478DD57B1EECEEACBB3D683 /* Pods-github-user-list-rx.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-github-user-list-rx.release.xcconfig"; path = "Target Support Files/Pods-github-user-list-rx/Pods-github-user-list-rx.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -199,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				AD9AC89824784A81005C501A /* UserTableViewCell.swift */,
+				AD9ACA4E247A5E90005C501A /* StaffBadgeView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 				AD9AC88B2478286A005C501A /* UserDetail.swift in Sources */,
 				AD9AC89624783C2B005C501A /* ActivityIndicator.swift in Sources */,
 				AD9AC8832478184E005C501A /* UserListViewController.swift in Sources */,
+				AD9ACA4F247A5E90005C501A /* StaffBadgeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

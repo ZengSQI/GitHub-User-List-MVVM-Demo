@@ -32,20 +32,8 @@ class UserTableViewCell: UITableViewCell {
     return label
   }()
 
-  private var staffBadge: UIView = {
-    let view = UIView()
-    view.backgroundColor = .systemRed
-    view.layer.cornerRadius = 10
-    let label = UILabel()
-    view.addSubview(label)
-    label.text = "STAFF"
-    label.textColor = .white
-    label.font = UIFont.boldSystemFont(ofSize: 12)
-    label.snp.makeConstraints { (make) in
-      make.top.bottom.equalToSuperview()
-      make.leading.trailing.equalToSuperview().inset(8)
-      make.height.equalTo(20)
-    }
+  private var staffBadge: StaffBadgeView = {
+    let view = StaffBadgeView()
     view.isHidden = true
     return view
   }()
@@ -53,7 +41,7 @@ class UserTableViewCell: UITableViewCell {
   private lazy var nameStackView: UIStackView = {
     let stackView = UIStackView(arrangedSubviews: [nameLabel, staffBadge])
     stackView.axis = .vertical
-    stackView.distribution = .equalCentering
+    stackView.distribution = .equalSpacing
     stackView.alignment = .leading
     return stackView
   }()
