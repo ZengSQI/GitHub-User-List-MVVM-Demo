@@ -64,7 +64,10 @@ class UserDetailViewController: UIViewController {
     let viewModel = UserDetailViewModel()
     self.viewModel = viewModel
 
+    let loadTrigger = Driver<Void>.of(())
+
     let input = UserDetailViewModel.Input(
+      loadTrigger: loadTrigger,
       provider: MoyaProvider<GitHub>(),
       login: user.login
     )

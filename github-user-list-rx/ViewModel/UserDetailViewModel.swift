@@ -15,6 +15,7 @@ class UserDetailViewModel: ViewModelType {
   var disposeBag = DisposeBag()
 
   struct Input {
+    let loadTrigger: Driver<Void>
     let provider: MoyaProvider<GitHub>
     let login: String
   }
@@ -36,34 +37,37 @@ class UserDetailViewModel: ViewModelType {
     let blogText = BehaviorRelay<String>(value: "")
     let errorRelay = PublishRelay<Error>()
 
-    let userDetail = input.provider.rx.request(.getUserDetail(login: input.login))
-      .filterSuccessfulStatusCodes()
-      .map(UserDetail.self)
-      .trackActivity(activityIndicator)
-      .asObservable()
-      .catchError { (error) -> Observable<UserDetail> in
-        errorRelay.accept(error)
-        return .empty()
-    }
+    let userDetail = input.loadTrigger
+      .flatMapFirst {
+        input.provider.rx.request(.getUserDetail(login: input.login))
+          .filterSuccessfulStatusCodes()
+          .map(UserDetail.self)
+          .trackActivity(activityIndicator)
+          .asObservable()
+          .asDriver(onErrorRecover: { (error) -> Driver<UserDetail> in
+            errorRelay.accept(error)
+            return .empty()
+          })
+      }
 
     userDetail
       .map { $0.name }
-      .bind(to: nameText)
+      .drive(nameText)
       .disposed(by: disposeBag)
 
     userDetail
       .map { $0.bio }
-      .bind(to: bioText)
+      .drive(bioText)
       .disposed(by: disposeBag)
 
     userDetail
       .map { $0.location }
-      .bind(to: locationText)
+      .drive(locationText)
       .disposed(by: disposeBag)
 
     userDetail
       .map { $0.blog }
-      .bind(to: blogText)
+      .drive(blogText)
       .disposed(by: disposeBag)
 
     return Output(
