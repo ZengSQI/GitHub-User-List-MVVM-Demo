@@ -14,15 +14,17 @@ import RxSwift
 
 class UserTableViewCell: UITableViewCell {
   private let stackSpacing: CGFloat = 10.0
-
+  private let padding: CGFloat = 16.0
+  private let avatarSize: CGSize = CGSize(width: 50, height: 50)
 
   private var disposeBag = DisposeBag()
 
-  private var avatarView: UIImageView = {
+  private lazy var avatarView: UIImageView = {
     let imageView = UIImageView()
     imageView.contentMode = .scaleAspectFit
     imageView.snp.makeConstraints { (make) in
-      make.height.width.equalTo(50)
+      make.height.equalTo(avatarSize.height)
+      make.width.equalTo(avatarSize.width)
     }
     return imageView
   }()
@@ -71,8 +73,8 @@ class UserTableViewCell: UITableViewCell {
   private func setupSubview() {
     addSubview(mainStackView)
     mainStackView.snp.makeConstraints { (make) in
-      make.top.leading.trailing.equalToSuperview().inset(16)
-      make.bottom.equalToSuperview().inset(16).priority(.high)
+      make.top.leading.trailing.equalToSuperview().inset(padding)
+      make.bottom.equalToSuperview().inset(padding).priority(.high)
     }
   }
 
