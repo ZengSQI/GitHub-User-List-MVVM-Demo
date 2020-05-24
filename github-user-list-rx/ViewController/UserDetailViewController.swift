@@ -75,5 +75,14 @@ class UserDetailViewController: UIViewController {
     output.locationText.bind(to: userDetailView.locationLabel.rx.text).disposed(by: disposeBag)
     output.blogText.bind(to: userDetailView.blogTextView.rx.text).disposed(by: disposeBag)
     output.isLoading.drive(activityIndicatorView.rx.isAnimating).disposed(by: disposeBag)
+
+    output.errorRelay
+      .subscribe(onNext: { [weak self] (error) in
+        if let error = error as? MoyaError, let githubError = try? error.response?.map(GitHubError.self) {
+          self?.errorAlert(message: githubError.message)
+        } else {
+          self?.errorAlert(message: error.localizedDescription)
+        }
+      }).disposed(by: disposeBag)
   }
 }

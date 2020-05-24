@@ -25,6 +25,7 @@ class UserDetailViewModel: ViewModelType {
     let locationText: BehaviorRelay<String?>
     let blogText: BehaviorRelay<String>
     let isLoading: Driver<Bool>
+    let errorRelay: PublishRelay<Error>
   }
 
   func transform(input: Input) -> Output {
@@ -33,12 +34,17 @@ class UserDetailViewModel: ViewModelType {
     let bioText = BehaviorRelay<String?>(value: nil)
     let locationText = BehaviorRelay<String?>(value: nil)
     let blogText = BehaviorRelay<String>(value: "")
+    let errorRelay = PublishRelay<Error>()
 
     let userDetail = input.provider.rx.request(.getUserDetail(login: input.login))
       .filterSuccessfulStatusCodes()
       .map(UserDetail.self)
       .trackActivity(activityIndicator)
       .asObservable()
+      .catchError { (error) -> Observable<UserDetail> in
+        errorRelay.accept(error)
+        return .empty()
+    }
 
     userDetail
       .map { $0.name }
@@ -65,7 +71,8 @@ class UserDetailViewModel: ViewModelType {
       bioText: bioText,
       locationText: locationText,
       blogText: blogText,
-      isLoading: activityIndicator.asDriver()
+      isLoading: activityIndicator.asDriver(),
+      errorRelay: errorRelay
     )
   }
 }

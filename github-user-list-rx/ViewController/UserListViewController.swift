@@ -29,6 +29,11 @@ class UserListViewController: UIViewController {
     }
   )
 
+  private var refreshControl: UIRefreshControl = {
+    let refreshControl = UIRefreshControl()
+    return refreshControl
+  }()
+
   override func viewDidLoad() {
     super.viewDidLoad()
     title = "GitHub Users"
@@ -50,6 +55,7 @@ class UserListViewController: UIViewController {
 
   private func setupSubview() {
     view.addSubview(tableView)
+    tableView.addSubview(refreshControl)
   }
 
   private func bindViewModel() {
@@ -58,9 +64,11 @@ class UserListViewController: UIViewController {
 
     let nextPageSignal = tableView.rx.reachedBottom(offset: 120.0).asSignal()
 
+    let refreshTrigger = Driver<Void>.merge(.of(()), refreshControl.rx.controlEvent(.valueChanged).asDriver())
+
     let input = UserListViewModel.Input(
       provider: MoyaProvider<GitHub>(),
-      refreshSignal: .of(()),
+      refreshTrigger: refreshTrigger,
       nextPageSignal: nextPageSignal
     )
     let output = viewModel.transform(input: input)
@@ -71,10 +79,21 @@ class UserListViewController: UIViewController {
       .bind(to: tableView.rx.items(dataSource: dataSource))
       .disposed(by: disposeBag)
 
+    output.isLoading.filter { !$0 }.drive(refreshControl.rx.isRefreshing).disposed(by: disposeBag)
+
     tableView.rx.modelSelected(User.self)
       .subscribe(onNext: { [weak self] (user) in
         let controller = UserDetailViewController(user: user)
         self?.navigationController?.pushViewController(controller, animated: true)
+      }).disposed(by: disposeBag)
+
+    output.errorRelay
+      .subscribe(onNext: { [weak self] (error) in
+        if let error = error as? MoyaError, let githubError = try? error.response?.map(GitHubError.self) {
+          self?.errorAlert(message: githubError.message)
+        } else {
+          self?.errorAlert(message: error.localizedDescription)
+        }
       }).disposed(by: disposeBag)
   }
 }

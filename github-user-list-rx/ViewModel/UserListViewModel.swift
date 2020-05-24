@@ -18,13 +18,14 @@ class UserListViewModel: ViewModelType {
 
   struct Input {
     let provider: MoyaProvider<GitHub>
-    let refreshSignal: Signal<Void>
+    let refreshTrigger: Driver<Void>
     let nextPageSignal: Signal<Void>
   }
 
   struct Output {
     let userList: BehaviorRelay<[User]>
     let isLoading: Driver<Bool>
+    let errorRelay: PublishRelay<Error>
   }
 
   func transform(input: Input) -> Output {
@@ -32,22 +33,29 @@ class UserListViewModel: ViewModelType {
     let since = BehaviorRelay<Int>(value: 0)
     let activityIndicator = ActivityIndicator()
     let userList = BehaviorRelay<[User]>(value: [])
-
-
+    let errorRelay = PublishRelay<Error>()
 
     input
-      .refreshSignal
-      .emit(onNext: { since.accept(0) })
+      .refreshTrigger
+      .drive(onNext: { since.accept(0) })
       .disposed(by: disposeBag)
 
-    Signal
-      .merge(input.refreshSignal, input.nextPageSignal)
-      .asObservable()
+    input
+      .refreshTrigger
+      .drive(onNext: { userList.accept([]) })
+      .disposed(by: disposeBag)
+
+    Observable
+      .merge(input.refreshTrigger.asObservable(), input.nextPageSignal.asObservable())
       .flatMapFirst {
         input.provider.rx.request(.getUserList(since: since.value, pageSize: pageSize))
           .filterSuccessfulStatusCodes()
           .map([User].self)
           .trackActivity(activityIndicator)
+          .catchError { (error) -> Observable<[User]> in
+            errorRelay.accept(error)
+            return .empty()
+        }
       }
       .map { userList.value + $0 }
       .bind(to: userList)
@@ -61,7 +69,8 @@ class UserListViewModel: ViewModelType {
 
     return Output(
       userList: userList,
-      isLoading: activityIndicator.asDriver()
+      isLoading: activityIndicator.asDriver(),
+      errorRelay: errorRelay
     )
   }
 }
