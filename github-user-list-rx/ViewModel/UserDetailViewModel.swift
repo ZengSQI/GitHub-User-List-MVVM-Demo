@@ -37,6 +37,7 @@ class UserDetailViewModel: ViewModelType {
     let userDetail = input.provider.rx.request(.getUserDetail(login: input.login))
       .filterSuccessfulStatusCodes()
       .map(UserDetail.self)
+      .trackActivity(activityIndicator)
       .asObservable()
 
     userDetail

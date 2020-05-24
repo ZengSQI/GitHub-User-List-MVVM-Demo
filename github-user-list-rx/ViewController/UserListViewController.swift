@@ -41,6 +41,13 @@ class UserListViewController: UIViewController {
     tableView.frame = CGRect(x: view.safeAreaInsets.left, y: view.bounds.minY, width: view.safeAreaLayoutGuide.layoutFrame.width, height: view.bounds.height)
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    if let indexPath = tableView.indexPathForSelectedRow {
+      tableView.deselectRow(at: indexPath, animated: true)
+    }
+  }
+
   private func setupSubview() {
     view.addSubview(tableView)
   }
@@ -63,5 +70,11 @@ class UserListViewController: UIViewController {
       .map { [UserListSection(header: "", items: $0)] }
       .bind(to: tableView.rx.items(dataSource: dataSource))
       .disposed(by: disposeBag)
+
+    tableView.rx.modelSelected(User.self)
+      .subscribe(onNext: { [weak self] (user) in
+        let controller = UserDetailViewController(user: user)
+        self?.navigationController?.pushViewController(controller, animated: true)
+      }).disposed(by: disposeBag)
   }
 }
