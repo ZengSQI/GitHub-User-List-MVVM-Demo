@@ -36,7 +36,12 @@ extension GitHub: TargetType {
   }
 
   var sampleData: Data {
-    return Data()
+    switch self {
+    case .getUserList:
+      return stubbedResponse("UserList")
+    case .getUserDetail:
+      return stubbedResponse("UserDetail")
+    }
   }
 
   var task: Task {
@@ -50,5 +55,12 @@ extension GitHub: TargetType {
 
   var headers: [String : String]? {
     return nil
+  }
+
+  func stubbedResponse(_ filename: String) -> Data! {
+    let bundlePath = Bundle.main.path(forResource: "Stub", ofType: "bundle")
+    let bundle = Bundle(path: bundlePath!)
+    let path = bundle?.path(forResource: filename, ofType: "json")
+    return (try? Data(contentsOf: URL(fileURLWithPath: path!)))
   }
 }
