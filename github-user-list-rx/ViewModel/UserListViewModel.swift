@@ -40,13 +40,21 @@ class UserListViewModel: ViewModelType {
       .drive(onNext: { since.accept(0) })
       .disposed(by: disposeBag)
 
-    input
-      .refreshTrigger
-      .drive(onNext: { userList.accept([]) })
+    input.refreshTrigger.asObservable()
+      .flatMapFirst {
+        input.provider.rx.request(.getUserList(since: since.value, pageSize: pageSize))
+          .filterSuccessfulStatusCodes()
+          .map([User].self)
+          .trackActivity(activityIndicator)
+          .catchError { (error) -> Observable<[User]> in
+            errorRelay.accept(error)
+            return .empty()
+        }
+      }
+      .bind(to: userList)
       .disposed(by: disposeBag)
 
-    Observable
-      .merge(input.refreshTrigger.asObservable(), input.nextPageSignal.asObservable())
+    input.nextPageSignal.asObservable()
       .flatMapFirst {
         input.provider.rx.request(.getUserList(since: since.value, pageSize: pageSize))
           .filterSuccessfulStatusCodes()
